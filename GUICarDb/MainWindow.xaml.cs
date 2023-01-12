@@ -34,7 +34,7 @@ namespace GUICarDb
 
         private void UpdateList()
         {
-            var listCars = _carManager.GetAll();
+            var listCars = _carManager.GetAllCars();
 
             ListCars.Items.Clear();
 
@@ -49,9 +49,13 @@ namespace GUICarDb
         {
             var carToAdd = new Car();
 
-            carToAdd.Make = Make.Text;
+            var newColor = new DataAccess.Models.Color() {CarColor = Color.Text};
+            _carManager.AddColor(newColor);
+
+
+            //carToAdd.Make = Make.Text; //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
             carToAdd.Model = Model.Text;
-            carToAdd.Color = Color.Text;
+            carToAdd.Color = newColor;
             carToAdd.HorsePower = int.Parse(HorsePower.Text);
 
             _carManager.Add(carToAdd);
@@ -67,9 +71,9 @@ namespace GUICarDb
             {
                 var newCar = new Car()
                 {
-                    Make = Make.Text,
+                    //Make = Make.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny.
                     Model = Model.Text,
-                    Color = Color.Text,
+                    //Color = Color.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
                     HorsePower = int.Parse(HorsePower.Text)
                 };
 

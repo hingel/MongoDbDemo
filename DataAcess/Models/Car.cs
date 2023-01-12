@@ -13,10 +13,10 @@ public record Car
     public string Model { get; set; }
 
     [BsonElement]
-    public string Make { get; set; }
+    public Make Make { get; set; }
 
     [BsonElement]
-    public string Color { get; set; }
+    public Color Color { get; set; }
 
     [BsonElement]
     public int HorsePower { get; set; }

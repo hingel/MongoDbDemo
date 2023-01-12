@@ -7,6 +7,8 @@ namespace DataAccess
     {
 
         private readonly IMongoCollection<Car> _collection;
+        private readonly IMongoCollection<Color> _colorCollection;
+        private readonly IMongoCollection<Make> _makeCollection;
 
         public CarManager()
         {
@@ -16,8 +18,9 @@ namespace DataAccess
 
             var client = new MongoClient(connectionstring);
             var database = client.GetDatabase(databaseName);
-            _collection =
-                database.GetCollection<Car>("cars", new MongoCollectionSettings() { AssignIdOnInsert = true });
+            _collection = database.GetCollection<Car>("cars", new MongoCollectionSettings() { AssignIdOnInsert = true });
+            _colorCollection = database.GetCollection<Color>("color", new MongoCollectionSettings(){AssignIdOnInsert = true});
+            _makeCollection = database.GetCollection<Make>("make", new MongoCollectionSettings(){AssignIdOnInsert = true});
         }
 
         public void Add(Car carToAdd)
@@ -25,14 +28,33 @@ namespace DataAccess
             _collection.InsertOne(carToAdd);
         }
 
-        public IEnumerable<Car> GetAll()
+        public void AddColor(Color colorToAdd)
         {
-            return _collection.Find(_ => true).ToEnumerable();
+            _colorCollection.InsertOne(colorToAdd);
         }
 
-        public IEnumerable<Car> GetByMake(string make)
+        public void AddMake(Make makeToAdd)
         {
-            return _collection.Find(c => (!string.IsNullOrEmpty(make) && c.Make == make)).ToEnumerable();
+            _makeCollection.InsertOne(makeToAdd);
+        }
+
+        public IEnumerable<Car> GetAllCars()
+        {
+            var col = _collection.Find(_ => true);
+            return col.ToEnumerable();
+        }
+
+        public IEnumerable<Color> GetAllColors()
+        {
+            var col = _colorCollection.Find(_ => true);
+            return col.ToEnumerable();
+        }
+
+        //Risk att det nedan är helt fel:
+        public IEnumerable<Car> GetBySpec(Car car)
+        {
+            return _collection.Find(c => (c.Make == car.Make)).ToEnumerable();
+            //return _collection.Find(c => (!string.IsNullOrEmpty(make) && c.Make == make)).ToEnumerable();
         }
 
         public void Replace(object id, Car newCar)

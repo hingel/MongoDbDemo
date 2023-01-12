@@ -4,11 +4,11 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace DataAccess.Models;
 
 
-public record Make
+public class Make
 {
     [BsonId]
     public ObjectId Id { get; set; }
     [BsonElement]
-    public string Name { get; set; }
+    public string MakeName { get; set; }
 
 }

@@ -8,5 +8,5 @@ public class Color
     [BsonId]
     public ObjectId Id { get; set; }
     [BsonElement]
-    public string color { get; set; }
+    public string CarColor { get; set; }
 }
