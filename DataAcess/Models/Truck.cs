@@ -4,10 +4,10 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace DataAccess.Models;
 
-public record Car
+public record Truck
 {
     [BsonId]
-    public ObjectId Id { get; set; }
+    public int Id { get; set; }
 
     [BsonElement]
     public string Model { get; set; }

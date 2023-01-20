@@ -14,25 +14,27 @@ var carManager = new CarManager();
 //var hp = int.Parse(Console.ReadLine());
 
 
-//var brown = new Color() { CarColor = "Brown" };
-//var saab = new Make() { MakeName = "Saab" };
+//var brown = new MyColor() { CarColor = "Brown" };
+//var saab = new Brand() { MakeName = "Saab" };
 
 //carManager.AddColor(brown);
 //carManager.AddMake(saab);
 
-//carManager.Add(new Car(){Model = "90", Make = saab, Color = brown, HorsePower = 131});
+//carManager.Add(new Car(){Model = "90", Brand = saab, MyColor = brown, HorsePower = 131});
 
-var colorCollection = carManager.GetAllColors();
+//var colorCollection = _.GetAllItems();
 
-foreach (var color in colorCollection)
-{
-    Console.WriteLine(color.CarColor);
-}
+//var test = carManager.GetAllCars();
 
-var carCollection = carManager.GetAllCars();
+//foreach (var color in colorCollection)
+//{
+//    Console.WriteLine(color.CarColor);
+//}
 
-foreach (var car in carCollection)
-{
-    Console.WriteLine(car);
-}
+//var carCollection = carManager.GetAllCars();
+
+//foreach (var car in carCollection)
+//{
+//    Console.WriteLine(car);
+//}
 

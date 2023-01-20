@@ -23,18 +23,22 @@ namespace GUICarDb
     public partial class MainWindow : Window
     {
         private readonly IRepository<Car> _carManager;
+        private readonly IRepository<MyColor> _myColorManager;
+        private readonly IRepository<Brand> _myBrandManager;
 
-        public MainWindow()
+        public MainWindow(IRepository<Car> carManager, IRepository<MyColor> myColorManager, IRepository<Brand> myBrandManager)
         {
             InitializeComponent();
-            _carManager = new CarManager();
+            _carManager = carManager;
+            _myColorManager = myColorManager;
+            _myBrandManager = myBrandManager;
 
             UpdateList();
         }
 
         private void UpdateList()
         {
-            var listCars = _carManager.GetAllCars();
+            var listCars = _carManager.GetAllItems();
 
             ListCars.Items.Clear();
 
@@ -49,19 +53,24 @@ namespace GUICarDb
         {
             var carToAdd = new Car();
 
-            var newColor = new DataAccess.Models.Color() {CarColor = Color.Text};
-            _carManager.AddColor(newColor);
+            var newColor = new MyColor() {CarColor = MyColor.Text};
 
+            //Egentligen leta upp om färgen redan finns, isf skippa det.
+            _myColorManager.Add(newColor);
 
-            //carToAdd.Make = Make.Text; //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
+            //Kolla egentligen att detta 'Brand' inte redan finns.
+            var newBrand = new Brand() {Name = Brand.Text};
+            _myBrandManager.Add(newBrand);
+
+            carToAdd.MyColor = newColor;
+            carToAdd.Brand = newBrand;
+            
             carToAdd.Model = Model.Text;
-            carToAdd.Color = newColor;
             carToAdd.HorsePower = int.Parse(HorsePower.Text);
 
             _carManager.Add(carToAdd);
 
             UpdateList();
-
             ClearBoxes();
         }
 
@@ -71,9 +80,9 @@ namespace GUICarDb
             {
                 var newCar = new Car()
                 {
-                    //Make = Make.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny.
+                    //Brand = Brand.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny.
                     Model = Model.Text,
-                    //Color = Color.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
+                    //MyColor = MyColor.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
                     HorsePower = int.Parse(HorsePower.Text)
                 };
 
@@ -99,9 +108,9 @@ namespace GUICarDb
 
         private void ClearBoxes()
         {
-            Make.Text = string.Empty;
+            Brand.Text = string.Empty;
             Model.Text = string.Empty;
-            Color.Text = string.Empty;
+            MyColor.Text = string.Empty;
             HorsePower.Text = string.Empty;
         }
 
@@ -109,9 +118,9 @@ namespace GUICarDb
         {
             if (ListCars.SelectedItem is Car car)
             {
-                Make.Text = car.Make;
+                Make.Text = car.Brand.MakeName;
                 Model.Text = car.Model;
-                Color.Text = car.Color;
+                Color.Text = car.MyColor.CarColor;
                 HorsePower.Text = car.HorsePower.ToString();
             }
         }

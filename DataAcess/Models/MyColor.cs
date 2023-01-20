@@ -3,12 +3,10 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace DataAccess.Models;
 
-
-public class Make
+public class MyColor
 {
     [BsonId]
     public ObjectId Id { get; set; }
     [BsonElement]
-    public string MakeName { get; set; }
-
+    public string CarColor { get; set; }
 }

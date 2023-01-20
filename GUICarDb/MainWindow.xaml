@@ -51,9 +51,9 @@
                 Grid.Column="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Make:" />
+                Content="Brand:" />
             <TextBox
-                Name="Make"
+                Name="Brand"
                 Grid.Row="0"
                 Grid.Column="1" />
             <Label
@@ -71,9 +71,9 @@
                 Grid.Column="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Content="Color:" />
+                Content="MyColor:" />
             <TextBox
-                Name="Color"
+                Name="MyColor"
                 Grid.Row="2"
                 Grid.Column="1" />
             <Label

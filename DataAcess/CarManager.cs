@@ -7,8 +7,6 @@ namespace DataAccess
     {
 
         private readonly IMongoCollection<Car> _collection;
-        private readonly IMongoCollection<Color> _colorCollection;
-        private readonly IMongoCollection<Make> _makeCollection;
 
         public CarManager()
         {
@@ -18,43 +16,31 @@ namespace DataAccess
 
             var client = new MongoClient(connectionstring);
             var database = client.GetDatabase(databaseName);
+
+            //Inkopierat ifrån Atlas.
+            //var settings = MongoClientSettings.FromConnectionString("mongodb+srv://Test:<wqJhdIoGImbvLGoO>@cluster0.joo7uio.mongodb.net/?retryWrites=true&w=majority");
+            //var client = new MongoClient(settings);
+            //var database = client.GetDatabase("test");
+
             _collection = database.GetCollection<Car>("cars", new MongoCollectionSettings() { AssignIdOnInsert = true });
-            _colorCollection = database.GetCollection<Color>("color", new MongoCollectionSettings(){AssignIdOnInsert = true});
-            _makeCollection = database.GetCollection<Make>("make", new MongoCollectionSettings(){AssignIdOnInsert = true});
         }
 
         public void Add(Car carToAdd)
         {
             _collection.InsertOne(carToAdd);
         }
-
-        public void AddColor(Color colorToAdd)
-        {
-            _colorCollection.InsertOne(colorToAdd);
-        }
-
-        public void AddMake(Make makeToAdd)
-        {
-            _makeCollection.InsertOne(makeToAdd);
-        }
-
-        public IEnumerable<Car> GetAllCars()
+        
+        public IEnumerable<Car> GetAllItems()
         {
             var col = _collection.Find(_ => true);
             return col.ToEnumerable();
         }
 
-        public IEnumerable<Color> GetAllColors()
+        public Car GetById(object id)
         {
-            var col = _colorCollection.Find(_ => true);
-            return col.ToEnumerable();
-        }
+            var filter = Builders<Car>.Filter.Eq("Id", id);
 
-        //Risk att det nedan är helt fel:
-        public IEnumerable<Car> GetBySpec(Car car)
-        {
-            return _collection.Find(c => (c.Make == car.Make)).ToEnumerable();
-            //return _collection.Find(c => (!string.IsNullOrEmpty(make) && c.Make == make)).ToEnumerable();
+            return _collection.Find(filter).FirstOrDefault();
         }
 
         public void Replace(object id, Car newCar)
@@ -62,8 +48,8 @@ namespace DataAccess
             var filter = Builders<Car>.Filter.Eq("Id", id);
             var update = Builders<Car>.Update
                 .Set("Model", newCar.Model)
-                .Set("Make", newCar.Model)
-                .Set("Color", newCar.Color)
+                .Set("Brand", newCar.Model)
+                .Set("MyColor", newCar.MyColor)
                 .Set("HorsePower", newCar.HorsePower);
 
             _collection.FindOneAndUpdate(filter, update, new FindOneAndUpdateOptions<Car, Car> { IsUpsert = true });
