@@ -48,7 +48,7 @@ namespace DataAccess
             var filter = Builders<Car>.Filter.Eq("Id", id);
             var update = Builders<Car>.Update
                 .Set("Model", newCar.Model)
-                .Set("Brand", newCar.Model)
+                .Set("Brand", newCar.Brand)
                 .Set("MyColor", newCar.MyColor)
                 .Set("HorsePower", newCar.HorsePower);
 

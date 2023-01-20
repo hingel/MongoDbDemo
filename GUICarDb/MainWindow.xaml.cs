@@ -46,6 +46,8 @@ namespace GUICarDb
             {
                 ListCars.Items.Add(car);
             }
+
+            ClearBoxes();
         }
 
 
@@ -80,9 +82,9 @@ namespace GUICarDb
             {
                 var newCar = new Car()
                 {
-                    //Brand = Brand.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny.
+                    Brand = new Brand() {Name = Brand.Text},//Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny.
                     Model = Model.Text,
-                    //MyColor = MyColor.Text, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
+                    MyColor = new MyColor(){CarColor = MyColor.Text}, //Här leta upp om färgen redan finns isf lägg till den, annars lägg in ny
                     HorsePower = int.Parse(HorsePower.Text)
                 };
 
@@ -118,9 +120,9 @@ namespace GUICarDb
         {
             if (ListCars.SelectedItem is Car car)
             {
-                Make.Text = car.Brand.MakeName;
+                Brand.Text = car.Brand.Name;
                 Model.Text = car.Model;
-                Color.Text = car.MyColor.CarColor;
+                MyColor.Text = car.MyColor.CarColor;
                 HorsePower.Text = car.HorsePower.ToString();
             }
         }

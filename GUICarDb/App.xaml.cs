@@ -17,7 +17,7 @@ namespace GUICarDb
     /// </summary>
     public partial class App : Application
     {
-        public IHost? AppHost { get; private set; } //Behöver ej ha frågetecken
+        public IHost? AppHost { get; private set; } //Behöver ej ha frågetecken, men för att slippa squiglyline.
 
         public App()
         {
@@ -27,7 +27,7 @@ namespace GUICarDb
                 services.AddScoped<IRepository<MyColor>, ColorManager>();
                 services.AddScoped<IRepository<Brand>, BrandManager>();
                 
-                //Lägg till fler IRepositories till services.
+                //Lägg till fler IRepositories till services om det behövs.
                 //services.AddScoped<IRepository<Brand>, MakeManager>();
 
                 services.AddScoped<MainWindow>();
@@ -36,15 +36,15 @@ namespace GUICarDb
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            await AppHost.StartAsync();
-            var mainWindow = AppHost!.Services.GetRequiredService<MainWindow>(); //Uttrpostecken säger att den inte kan vara noll.
+            await AppHost!.StartAsync(); //Utropstecknget säger att den inte kan vara null
+            var mainWindow = AppHost!.Services.GetRequiredService<MainWindow>(); //GetRequiredService letar upp rätt service i ServiceCollection.
             mainWindow.Show();
             base.OnStartup(e);
         }
 
         protected override async void OnExit(ExitEventArgs e)
         {
-            await AppHost.StopAsync();
+            await AppHost!.StopAsync(); //Avslutar Hosten, annars kör den bara vidare även om programmet stängs ned.
             base.OnExit(e);
         }
     }

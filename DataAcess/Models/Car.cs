@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace DataAccess.Models;
 
-public record Car
+public class Car
 {
     [BsonId]
     public ObjectId Id { get; set; }
@@ -20,4 +20,9 @@ public record Car
 
     [BsonElement]
     public int HorsePower { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Brand.Name}, {Model}, {MyColor.CarColor} HP:{HorsePower}";
+    }
 }
